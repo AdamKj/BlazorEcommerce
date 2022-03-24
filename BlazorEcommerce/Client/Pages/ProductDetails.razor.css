@@ -1,17 +1,13 @@
 ﻿.media-img {
-    max-height: 300px;
-    max-width: 300px;
-    margin-bottom: 10px;
-    transition: transform .2s;
+    max-height: 600px;
+    max-width: 600px;
     box-shadow: 0px 5px 20px 5px slategray;
-}
-
-.media-img:hover {
-    transform: scale(1.1);
+    margin-right: 40px;
 }
 
 .media-img-wrapper {
-    width: 300px;
+    max-width: 600px;
+    max-height: 600px;
     text-align: center;
 }
 
@@ -20,11 +16,14 @@
         flex-direction: column;
     }
 
+    .media-img {
+        max-width: 300px;
+    }
+
     .media-img-wrapper {
         width: 100%;
         height: auto;
     }
-
     .product-desc {
         max-width: 100%;
     }
