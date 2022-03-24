@@ -1,0 +1,40 @@
+﻿.media-img {
+    max-height: 300px;
+    max-width: 300px;
+    margin-bottom: 10px;
+    transition: transform .2s;
+    box-shadow: 0px 5px 20px 5px slategray;
+}
+
+.media-img:hover {
+    transform: scale(1.1);
+}
+
+.media-img-wrapper {
+    width: 300px;
+    text-align: center;
+}
+
+.media {
+    display: flex;
+    align-items: flex-start;
+}
+
+.media-body {
+    flex: 1;
+}
+
+.price {
+    color: red;
+}
+
+@media (max-width: 1024px) {
+    .media {
+        flex-direction: column;
+    }
+
+    .media-img-wrapper {
+        width: 100%;
+        height: auto;
+    }
+}
