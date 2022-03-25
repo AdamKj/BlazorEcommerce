@@ -1,4 +1,5 @@
 ﻿@inject IProductService _productService
+@implements IDisposable;
 
 @if (_productService.Products.Count == 0)
 {
@@ -31,9 +32,13 @@ else
 @code {
     string _currency = "kr";
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await _productService.GetProducts();
+        _productService.ProductsChanged += StateHasChanged;
     }
 
+    public void Dispose()
+    {
+        _productService.ProductsChanged -= StateHasChanged;
+    }
 }
