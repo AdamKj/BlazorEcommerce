@@ -6,5 +6,6 @@
         Task<ServiceResponse<Product>> GetSingleProduct(int id);
         Task<ServiceResponse<List<Product>>> GetProductsByCategory(string url);
         Task<ServiceResponse<List<Product>>> SearchProducts(string searchText);
+        Task<ServiceResponse<List<string>>> GetProductSearchSuggestion(string searchText);
     }
 }
