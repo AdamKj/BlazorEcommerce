@@ -15,6 +15,10 @@
     text-decoration: line-through;
 }
 
+.form-select {
+    width: auto;
+}
+
 @media (max-width: 1024px) {
     .media {
         flex-direction: column;

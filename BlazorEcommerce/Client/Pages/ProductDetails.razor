@@ -15,8 +15,17 @@ else
         <div class="media-body">
             <h2 class="mb-2 fw-bold">@_product.Title</h2>
             <p class="product-desc">@_product.Description</p>
-            @if (GetSelectedProductVariant() != null)
+            @if (_product.Variants.Count > 1)
             {
+                <div class="mb-3">
+                    <select class="form-select" @bind="_currentTypeId">
+                        @foreach (var variant in _product.Variants)
+                        {
+                            <option value="@variant.ProductTypeId">@variant.ProductType.Name</option>
+                        }
+                    </select>
+                </div>
+            }
                 @if (GetSelectedProductVariant().OriginalPrice > GetSelectedProductVariant().Price)
                 {
                     <h6 class="text-muted original-price">
@@ -24,7 +33,6 @@ else
                     </h6>
                 }
                 <h4 class="price">@GetSelectedProductVariant().Price@_currency</h4>
-            }
         </div>
     </div>
 }
