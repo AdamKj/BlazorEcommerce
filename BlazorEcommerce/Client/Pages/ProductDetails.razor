@@ -1,4 +1,5 @@
 ﻿@page "/Product/{id:int}"
+@using System.Runtime.CompilerServices
 @inject IProductService _productService
 
 @if (_product is null)
@@ -14,15 +15,25 @@ else
         <div class="media-body">
             <h2 class="mb-2 fw-bold">@_product.Title</h2>
             <p class="product-desc">@_product.Description</p>
-            <h4 class="price">@_product.Price@currency</h4>
+            @if (GetSelectedProductVariant() != null)
+            {
+                @if (GetSelectedProductVariant().OriginalPrice > GetSelectedProductVariant().Price)
+                {
+                    <h6 class="text-muted original-price">
+                        @GetSelectedProductVariant().OriginalPrice@_currency
+                    </h6>
+                }
+                <h4 class="price">@GetSelectedProductVariant().Price@_currency</h4>
+            }
         </div>
     </div>
 }
 
 @code {
-    string currency = "kr";
+    string _currency = "kr";
     string? _message;
     private Product? _product;
+    private int _currentTypeId = 1;
 
     [Parameter]
     public int Id { get; set; }
@@ -37,5 +48,15 @@ else
             _message = result.Message;
         }
         _product = result.Data;
+        if (_product.Variants.Count > 0)
+        {
+            _currentTypeId = _product.Variants[0].ProductTypeId;
+        }
+    }
+
+    private ProductVariant GetSelectedProductVariant()
+    {
+        var variant = _product.Variants.FirstOrDefault(v => v.ProductTypeId == _currentTypeId);
+        return variant;
     }
 }
