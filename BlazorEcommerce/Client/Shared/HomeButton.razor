@@ -1,0 +1,11 @@
+﻿@inject NavigationManager _navigationManager
+
+<button @onclick="GoToHome" class="btn btn-dark btn-lg oi oi-home home-button"></button>
+
+@code {
+
+    private void GoToHome()
+    {
+        _navigationManager.NavigateTo("/");
+    }
+}

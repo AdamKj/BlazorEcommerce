@@ -1,0 +1,9 @@
+﻿.home-button {
+    margin-right: 10px;
+    margin-left: 10px;
+    transition: transform .4s;
+}
+
+.home-button:hover {
+    transform: scale(1.2) rotate(-4deg);
+}

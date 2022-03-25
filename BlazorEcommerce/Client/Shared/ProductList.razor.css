@@ -20,6 +20,11 @@
         flex-direction: column;
     }
 
+    .media-body {
+        margin-left: 20px;
+        text-align: center;
+    }
+
     .media-img-wrapper {
         width: 100%;
         height: auto;
