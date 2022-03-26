@@ -69,7 +69,8 @@
                     Title = "Till minne av en mördare",
                     Description = "I skuggan av Mattias Flinks massmord i Falun sker ytterligare ett mord. En kvinna hittas strypt till döds och snart står det klart att hon bara är ett av flera offer som mördats med samma tillvägagångssätt. Det faller på den nyss hemkomne FN-soldaten och polisen Tomas Wolf att hitta mördaren. Till sin hjälp har han Vera Berg - en korrupt kvällstidningsreporter som är på flykt från sin före detta kille och hans MC-gäng.",
                     ImageUrl = "https://bilder.akademibokhandeln.se/images_akb/9789137501833_383/till-minne-av-en-mordare",
-                    CategoryId = 1
+                    CategoryId = 1,
+                    Featured = true
                 },
                 new Product
                 {
@@ -78,6 +79,7 @@
                     Title = "The Matrix",
                     Description = "The Matrix is a 1999 science fiction action film written and directed by the Wachowskis, and produced by Joel Silver. Starring Keanu Reeves, Laurence Fishburne, Carrie-Anne Moss, Hugo Weaving, and Joe Pantoliano, and as the first installment in the Matrix franchise, it depicts a dystopian future in which humanity is unknowingly trapped inside a simulated reality, the Matrix, which intelligent machines have created to distract humans while using their bodies as an energy source. When computer programmer Thomas Anderson, under the hacker alias \"Neo\", uncovers the truth, he \"is drawn into a rebellion against the machines\" along with other people who have been freed from the Matrix.",
                     ImageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg",
+                    Featured = true
                 },
                 new Product
                 {
@@ -85,7 +87,8 @@
                     CategoryId = 2,
                     Title = "Back to the Future",
                     Description = "Back to the Future is a 1985 American science fiction film directed by Robert Zemeckis. Written by Zemeckis and Bob Gale, it stars Michael J. Fox, Christopher Lloyd, Lea Thompson, Crispin Glover, and Thomas F. Wilson. Set in 1985, the story follows Marty McFly (Fox), a teenager accidentally sent back to 1955 in a time-traveling DeLorean automobile built by his eccentric scientist friend Doctor Emmett \"Doc\" Brown (Lloyd). Trapped in the past, Marty inadvertently prevents his future parents' meeting—threatening his very existence—and is forced to reconcile the pair and somehow get back to the future.",
-                    ImageUrl = "https://upload.wikimedia.org/wikipedia/en/d/d2/Back_to_the_Future.jpg"
+                    ImageUrl = "https://upload.wikimedia.org/wikipedia/en/d/d2/Back_to_the_Future.jpg",
+                    Featured = true
                 },
                 new Product
                 {
@@ -112,6 +115,7 @@
                     Title = "Diablo II",
                     Description = "Diablo II is an action role-playing hack-and-slash computer video game developed by Blizzard North and published by Blizzard Entertainment in 2000 for Microsoft Windows, Classic Mac OS, and macOS.",
                     ImageUrl = "https://upload.wikimedia.org/wikipedia/en/d/d5/Diablo_II_Coverart.png",
+                    Featured = true
                 },
                 new Product
                 {

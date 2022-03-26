@@ -2,7 +2,6 @@
     max-height: 600px;
     max-width: 500px;
     box-shadow: 0px 5px 20px 5px slategray;
-    margin-right: 40px;
 }
 
 .media-img-wrapper {
@@ -15,6 +14,10 @@
     text-decoration: line-through;
 }
 
+.media-body-detail {
+    margin-left: 20px;
+}
+
 .form-select {
     width: auto;
 }
@@ -22,6 +25,10 @@
 @media (max-width: 1024px) {
     .media {
         flex-direction: column;
+    }
+
+    .media-body-detail {
+        margin-left: 10px;
     }
 
     .media-img {
