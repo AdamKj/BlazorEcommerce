@@ -1,0 +1,38 @@
+﻿.container {
+    display: flex;
+    padding: 10px;
+}
+
+.image-wrapper {
+    width: 150px;
+    text-align: center;
+}
+
+.image {
+    max-width: 150px;
+    max-height: 150px;
+    padding: 10px;
+}
+
+.name {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.cart-product-price {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: right;
+}
+
+.btn-danger {
+    transition: transform .3s;
+}
+
+.btn-danger:hover {
+    transform: scale(1.2);
+}
+
+.input-quantity {
+    width: 70px;
+}

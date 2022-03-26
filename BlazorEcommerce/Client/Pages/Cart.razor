@@ -1,0 +1,76 @@
+﻿@page "/cart"
+@using BlazorEcommerce.Shared.DTO
+@using System.Diagnostics.Metrics
+@inject ICartService _cartService
+
+<PageTitle>Your Shopping Cart</PageTitle>
+<h3 class="text-center mb-4">Your Shopping Cart</h3>
+
+@if (_cartProduct.Count == 0)
+{
+    <span>@_message</span>
+}
+else
+{
+    <div class="cart-product-price">
+        Total: @_cartProduct.Sum(product => @product.Price * product.Quantity)@_currency, (@_cartProduct.Count products)
+        <hr/>
+    </div>
+    <div>
+        @foreach (var product in _cartProduct)
+        {
+            <div class="container">
+                <div class="image-wrapper">
+                    <img src="@product.ImageUrl" class="image"/>
+                </div>
+                <div class="name">
+                    <h5><a href="/product/@product.ProductId">@product.Title</a></h5>
+                    <span>@product.ProductType</span><br/><br/>
+                    <input type="number" value="@product.Quantity" @onchange="@((ChangeEventArgs e) => UpdateQuantity(e, product))" class="form-control input-quantity" min="1"/>
+                    <button class="btn btn-danger" @onclick="@(() => RemoveProductFromCart(product.ProductId, product.ProductTypeId))">Delete</button>
+                </div>
+                <div class="cart-product-price">@(product.Price * product.Quantity)@_currency</div>
+            </div>
+            <hr/>
+        }
+    </div>
+}
+
+@code {
+    string _currency = "kr";
+    List<CartProductResponseDTO> _cartProduct;
+    string _message = "Loading cart...";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCart();
+    }
+
+    private async Task RemoveProductFromCart(int productId, int productTypeId)
+    {
+        await _cartService.RemoveProductFromCart(productId, productTypeId);
+        await LoadCart();
+    }
+
+    private async Task LoadCart()
+    {
+        
+        if ((await _cartService.GetCartItems()).Count == 0)
+        {
+            _message = "Your cart is empty.";
+            _cartProduct = new List<CartProductResponseDTO>();
+        }
+        else
+        {
+            _cartProduct = await _cartService.GetCartProducts();
+        }
+    }
+
+    private async Task UpdateQuantity(ChangeEventArgs e, CartProductResponseDTO product)
+    {
+        product.Quantity = int.Parse(e.Value.ToString());
+        if (product.Quantity < 1)
+            product.Quantity = 1;
+        await _cartService.UpdateQuantity(product);
+    }
+}

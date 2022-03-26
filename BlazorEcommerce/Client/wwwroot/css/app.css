@@ -9,8 +9,15 @@ h1:focus {
 }
 
 a, .btn-link {
-    color: #0071c1;
+    color: black;
+    text-decoration: none;
 }
+
+    a:hover, .btn-link:hover {
+        color: grey;
+        text-decoration: none;
+        transform: scale(1.2);
+    }
 
 .btn-primary {
     color: #fff;
