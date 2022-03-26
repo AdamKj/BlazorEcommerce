@@ -15,6 +15,11 @@
     text-align: center;
 }
 
+.page-selection {
+    margin-left: 30px;
+    margin-bottom: 30px;
+}
+
 @media (max-width: 1024px) {
     .media {
         flex-direction: column;
