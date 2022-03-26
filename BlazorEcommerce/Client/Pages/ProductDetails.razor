@@ -1,6 +1,7 @@
 ﻿@page "/Product/{id:int}"
-@using System.Runtime.CompilerServices
+@using BlazorEcommerce.Shared.Models
 @inject IProductService _productService
+@inject ICartService _cartService
 
 @if (_product is null)
 {
@@ -32,7 +33,10 @@ else
                         @GetSelectedProductVariant().OriginalPrice@_currency
                     </h6>
                 }
-                <h4 class="price">@GetSelectedProductVariant().Price@_currency</h4>
+            <h4 class="price">@GetSelectedProductVariant().Price@_currency</h4>
+            <button class="btn btn-success cart-button" @onclick="AddToCart">
+                <i class="oi oi-cart cart-button-text">&nbsp;&nbsp;&nbsp;Add to cart</i>
+            </button>
         </div>
     </div>
 }
@@ -66,5 +70,17 @@ else
     {
         var variant = _product.Variants.FirstOrDefault(v => v.ProductTypeId == _currentTypeId);
         return variant;
+    }
+
+    private async Task AddToCart()
+    {
+        var productVariant = GetSelectedProductVariant();
+        var cartItem = new CartItem
+        {
+            ProductId = productVariant.ProductId,
+            ProductTypeId = productVariant.ProductTypeId
+        };
+
+        await _cartService.AddToCart(cartItem);
     }
 }

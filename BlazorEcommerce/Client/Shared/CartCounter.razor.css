@@ -1,0 +1,8 @@
+﻿.cart-button {
+    transition: transform .4s;
+    font-size: 18px;
+}
+
+.cart-button:hover {
+    transform: scale(1.2) rotate(4deg);
+}
