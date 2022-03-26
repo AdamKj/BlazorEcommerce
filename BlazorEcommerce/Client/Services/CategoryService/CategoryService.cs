@@ -9,7 +9,7 @@
             _http = http;
         }
 
-        public List<Category> Categories { get; set; }
+        public List<Category> Categories { get; set; } = new();
         public async Task GetCategories()
         {
             var response = await _http.GetFromJsonAsync<ServiceResponse<List<Category>>>("api/Category");
