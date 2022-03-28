@@ -4,6 +4,7 @@
 @inject ILocalStorageService _localStorage
 @inject NavigationManager _navigationManager
 @inject AuthenticationStateProvider _authenticationStateProvider
+@inject ICartService _cartService
 
 <PageTitle>Login</PageTitle>
 
@@ -13,12 +14,12 @@
     <DataAnnotationsValidator/>
     <div class="m-4">
         <label for="email">Email</label>
-        <input id="email" @bind-value="_user.Email" class="form-control"/>
+        <InputText id="email" @bind-Value="_user.Email" class="form-control"/>
         <ValidationMessage For="@(() => _user.Email)"/>
     </div>
     <div class="m-4">
         <label for="password">Password</label>
-        <input id="password" @bind-value="_user.Password" class="form-control" type="password"/>
+        <InputText id="password" @bind-Value="_user.Password" class="form-control" type="password"/>
         <ValidationMessage For="@(() => _user.Password)"/>
     </div>
     <button class="btn btn-primary m-4" type="submit">Login</button>
@@ -49,6 +50,7 @@
             _errorMessage = string.Empty;
             await _localStorage.SetItemAsync("authToken", result.Data);
             await _authenticationStateProvider.GetAuthenticationStateAsync();
+            await _cartService.StoreCartItems(true);
             _navigationManager.NavigateTo(_returnUrl);
         }
         else
