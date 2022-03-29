@@ -1,6 +1,6 @@
 ﻿@page "/cart"
 @using BlazorEcommerce.Shared.DTO
-@using System.Diagnostics.Metrics
+@inject IOrderService _orderService
 @inject ICartService _cartService
 
 <PageTitle>Your Shopping Cart</PageTitle>
@@ -10,12 +10,12 @@
 {
     <h5 class="text-center mt-5 message">Your Cart is empty.</h5>
 }
+else if (_orderPlaced)
+{
+    <h5 class="text-center mt-5">Thank you for your order! You can check your orders <a href="orders">here</a>.</h5>
+}
 else
 {
-    <div class="cart-product-price">
-        Total: @_cartProduct.Sum(product => @product.Price * product.Quantity)@_currency, (@_cartProduct.Count products)
-        <hr/>
-    </div>
     <div>
         @foreach (var product in _cartProduct)
         {
@@ -33,16 +33,22 @@ else
             </div>
             <hr/>
         }
+        <div class="cart-product-price">
+            Total: @_cartProduct.Sum(product => @product.Price * product.Quantity)@_currency, (@_cartProduct.Count products)
+        </div>
     </div>
+    <button @onclick="PlaceOrder" class="btn alert-success float-end mt-4">Place Order</button>
 }
 
 @code {
     string _currency = "kr";
     List<CartProductResponseDTO> _cartProduct = new();
     string _message = "Loading cart...";
+    bool _orderPlaced = false;
 
     protected override async Task OnInitializedAsync()
     {
+        _orderPlaced = false;
         await LoadCart();
     }
 
@@ -68,5 +74,12 @@ else
         if (product.Quantity < 1)
             product.Quantity = 1;
         await _cartService.UpdateQuantity(product);
+    }
+
+    private async Task PlaceOrder()
+    {
+        await _orderService.PlaceOrder();
+        await _cartService.GetCartItemsCount();
+        _orderPlaced = true;
     }
 }
