@@ -1,0 +1,28 @@
+﻿.container {
+    display: flex;
+    padding: 10px;
+    border: 1px solid;
+    border-color: grey;
+}
+
+.image-wrapper {
+    width: 200px;
+    text-align: center;
+}
+
+.image {
+    max-height: 200px;
+    max-width: 200px;
+    padding: 10px;
+}
+
+.details {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.order-price {
+    font-weight: 600;
+    font-size: 1.2em;
+    text-align: right;
+}
