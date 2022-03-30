@@ -1,0 +1,25 @@
+﻿.container {
+    display: flex;
+    padding: 10px;
+}
+
+.image-wrapper {
+    width: 200px;
+    text-align: center;
+}
+
+.image {
+    max-height: 200px;
+    max-width: 200px;
+    padding: 10px;
+}
+
+.name {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.product-price {
+    font-weight: 600;
+    text-align: right;
+}

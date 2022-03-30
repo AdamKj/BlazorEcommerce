@@ -29,6 +29,12 @@ namespace BlazorEcommerce.Client.Services.OrderService
             return result.Data;
         }
 
+        public async Task<OrderDetailsResponseDTO> GetOrderDetails(int id)
+        {
+            var result = await _http.GetFromJsonAsync<ServiceResponse<OrderDetailsResponseDTO>>($"/api/order/{id}");
+            return result.Data;
+        }
+
         private async Task<bool> IsUserAuthenticated()
         {
             return (await _authenticationStateProvider.GetAuthenticationStateAsync()).User.Identity.IsAuthenticated;
