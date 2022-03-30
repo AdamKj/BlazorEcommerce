@@ -73,5 +73,46 @@
 
             return response;
         }
+
+        public async Task<ServiceResponse<OrderDetailsResponseDTO>> GetOrderDetails(int id)
+        {
+            var response = new ServiceResponse<OrderDetailsResponseDTO>();
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                .ThenInclude(oi => oi.ProductType)
+                .Where(o => o.UserId == _authService.GetUserId() && o.Id == id)
+                .OrderByDescending(o => o.OrderDate)
+                .FirstOrDefaultAsync();
+
+            if (order is null)
+            {
+                response.Success = false;
+                response.Message = "Order not found.";
+                return response;
+            }
+
+            var orderDetailsResponse = new OrderDetailsResponseDTO
+            {
+                OrderDate = order.OrderDate,
+                TotalPrice = order.TotalPrice,
+                Products = new List<OrderDetailsProductResponseDTO>()
+            };
+
+            order.OrderItems.ForEach(item => 
+                orderDetailsResponse.Products.Add(new OrderDetailsProductResponseDTO
+                {
+                    ProductId = item.ProductId,
+                    ImageUrl = item.Product.ImageUrl,
+                    ProductType = item.ProductType.Name,
+                    Quantity = item.Quantity,
+                    Title = item.Product.Title,
+                    TotalPrice = item.TotalPrice
+                }));
+
+            response.Data = orderDetailsResponse;
+            return response;
+        }
     }
 }
