@@ -13,9 +13,9 @@
             _authService = authService;
         }
 
-        public async Task<ServiceResponse<bool>> PlaceOrder()
+        public async Task<ServiceResponse<bool>> PlaceOrder(int id)
         {
-            var products = (await _cartService.GetDbCartProducts()).Data;
+            var products = (await _cartService.GetDbCartProducts(id)).Data;
             double totalPrice = 0;
             products.ForEach(product => totalPrice += product.Price * product.Quantity);
 
@@ -30,7 +30,7 @@
 
             var order = new Order()
             {
-                UserId = _authService.GetUserId(),
+                UserId = id,
                 OrderDate = DateTime.Now,
                 TotalPrice = totalPrice,
                 OrderItems = orderItems
@@ -39,7 +39,7 @@
             _context.Orders.Add(order);
 
             _context.CartItems.RemoveRange(_context.CartItems
-                .Where(ci => ci.UserId == _authService.GetUserId()));
+                .Where(ci => ci.UserId == id));
 
             _context.SaveChangesAsync();
 
