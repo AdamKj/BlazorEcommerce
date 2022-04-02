@@ -19,7 +19,7 @@
 
         public async Task AddProductType(ProductType productType)
         {
-            var response = await _http.PostAsJsonAsync("api/product-type", productType);
+            var response = await _http.PostAsJsonAsync("api/producttype", productType);
             ProductTypes = (await response.Content
                 .ReadFromJsonAsync<ServiceResponse<List<ProductType>>>()).Data;
             Onchange.Invoke();
@@ -27,7 +27,7 @@
 
         public async Task UpdateProductType(ProductType productType)
         {
-            var response = await _http.PutAsJsonAsync("api/product-type", productType);
+            var response = await _http.PutAsJsonAsync("api/producttype", productType);
             ProductTypes = (await response.Content
                 .ReadFromJsonAsync<ServiceResponse<List<ProductType>>>()).Data;
             Onchange.Invoke();
