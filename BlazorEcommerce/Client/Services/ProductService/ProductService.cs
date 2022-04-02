@@ -72,5 +72,24 @@ namespace BlazorEcommerce.Client.Services.ProductService
             if (AdminProducts.Count == 0)
                 Message = "No products found.";
         }
+
+        public async Task<Product> CreateProduct(Product product)
+        {
+            var result = await _http.PostAsJsonAsync("api/product", product);
+            var newProduct = (await result.Content
+                .ReadFromJsonAsync<ServiceResponse<Product>>()).Data;
+            return newProduct;
+        }
+
+        public async Task<Product> UpdateProduct(Product product)
+        {
+            var result = await _http.PutAsJsonAsync($"api/product", product);
+            return (await result.Content.ReadFromJsonAsync<ServiceResponse<Product>>()).Data;
+        }
+
+        public async Task DeleteProduct(Product productId)
+        {
+            var result = await _http.DeleteAsync($"api/Product/{productId}");
+        }
     }
 }
