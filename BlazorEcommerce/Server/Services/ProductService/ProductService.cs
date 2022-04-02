@@ -5,10 +5,12 @@ namespace BlazorEcommerce.Server.Services.ProductService
     public class ProductService : IProductService
     {
         private readonly DataContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductService(DataContext context)
+        public ProductService(DataContext context, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<ServiceResponse<List<Product>>> GetProducts()
@@ -27,11 +29,25 @@ namespace BlazorEcommerce.Server.Services.ProductService
         public async Task<ServiceResponse<Product>> GetSingleProduct(int id)
         {
             var response = new ServiceResponse<Product>();
-            var product = await _context.Products
-                .Include(p => p.Variants
-                    .Where(v => v.Visible && !v.Deleted))
-                .ThenInclude(v => v.ProductType)
-                .FirstOrDefaultAsync(p => p.Id == id && !p.Deleted && p.Visible);
+            Product product = null;
+
+            if (_httpContextAccessor.HttpContext.User.IsInRole("Admin"))
+            {
+                product = await _context.Products
+                    .Include(p => p.Variants
+                        .Where(v => !v.Deleted))
+                    .ThenInclude(v => v.ProductType)
+                    .FirstOrDefaultAsync(p => p.Id == id && !p.Deleted);
+            }
+            else
+            {
+                product = await _context.Products
+                    .Include(p => p.Variants
+                        .Where(v => v.Visible && !v.Deleted))
+                    .ThenInclude(v => v.ProductType)
+                    .FirstOrDefaultAsync(p => p.Id == id && !p.Deleted && p.Visible);
+            }
+
             if (product == null)
             {
                 response.Success = false;
