@@ -17,5 +17,12 @@ namespace BlazorEcommerce.Shared
         public int ProductTypeId { get; set; }
         public double Price { get; set; }
         public double OriginalPrice { get; set; }
+        public bool Visible { get; set; } = true;
+        public bool Deleted { get; set; } = false;
+
+        [NotMapped]
+        public bool Editing { get; set; } = false;
+        [NotMapped]
+        public bool IsNew { get; set; } = false;
     }
 }
