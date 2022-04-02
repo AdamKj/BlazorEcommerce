@@ -2,6 +2,7 @@
 @using BlazorEcommerce.Shared.DTO
 @inject IOrderService _orderService
 @inject ICartService _cartService
+@inject IAuthService _authService
 @inject NavigationManager _navigationManager
 
 <PageTitle>Your Shopping Cart</PageTitle>
@@ -34,6 +35,13 @@ else
             Total: @_cartProduct.Sum(product => @product.Price * product.Quantity)@_currency, (@_cartProduct.Count products)
         </div>
     </div>
+    @if (_isAuthenticated)
+    {
+        <div class="m-4">
+            <h4>Deliver Address</h4>
+            <AddressForm />
+        </div>
+    }
     <button @onclick="PlaceOrder" class="btn alert-success float-end mt-4">Checkout</button>
 }
 
@@ -41,9 +49,11 @@ else
     string _currency = "kr";
     List<CartProductResponseDTO> _cartProduct = new();
     string _message = "Loading cart...";
+    bool _isAuthenticated = false;
 
     protected override async Task OnInitializedAsync()
     {
+        _isAuthenticated = await _authService.IsUserAuthenticated();
         await LoadCart();
     }
 
