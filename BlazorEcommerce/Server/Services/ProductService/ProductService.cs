@@ -200,6 +200,7 @@ namespace BlazorEcommerce.Server.Services.ProductService
             dbProduct.CategoryId = product.CategoryId;
             dbProduct.ImageUrl = product.ImageUrl;
             dbProduct.Visible = product.Visible;
+            dbProduct.Featured = product.Featured;
 
             foreach (var variant in product.Variants)
             {
