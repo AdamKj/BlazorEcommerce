@@ -15,7 +15,11 @@ namespace BlazorEcommerce.Server.Services.ProductService
         {
             var response = new ServiceResponse<List<Product>>
             {
-                Data = await _context.Products.Include(p => p.Variants).ToListAsync()
+                Data = await _context.Products
+                    .Where(p => p.Visible && !p.Deleted)
+                    .Include(p => p.Variants
+                        .Where(v => v.Visible && !v.Deleted))
+                    .ToListAsync()
             };
             return response;
         }
@@ -24,9 +28,10 @@ namespace BlazorEcommerce.Server.Services.ProductService
         {
             var response = new ServiceResponse<Product>();
             var product = await _context.Products
-                .Include(p => p.Variants)
+                .Include(p => p.Variants
+                    .Where(v => v.Visible && !v.Deleted))
                 .ThenInclude(v => v.ProductType)
-                .FirstOrDefaultAsync(p => p.Id == id);
+                .FirstOrDefaultAsync(p => p.Id == id && !p.Deleted && p.Visible);
             if (product == null)
             {
                 response.Success = false;
@@ -42,8 +47,10 @@ namespace BlazorEcommerce.Server.Services.ProductService
             var response = new ServiceResponse<List<Product>>
             {
                 Data = await _context.Products
-                    .Where(p => p.Category.Url.ToLower().Equals(url.ToLower()))
-                    .Include(p => p.Variants)
+                    .Where(p => p.Category.Url.ToLower().Equals(url.ToLower()) 
+                                && p.Visible && !p.Deleted)
+                    .Include(p => p.Variants
+                        .Where(v => v.Visible && !v.Deleted))
                     .ToListAsync()
             };
 
@@ -56,7 +63,8 @@ namespace BlazorEcommerce.Server.Services.ProductService
             var pageCount = Math.Ceiling((await FindProductsBySearchText(searchText)).Count / pageResult);
             var products = await _context.Products
                 .Where(p => p.Title.ToLower().Contains(searchText.ToLower())
-                            || p.Description.ToLower().Contains(searchText.ToLower()))
+                            || p.Description.ToLower().Contains(searchText.ToLower())
+                            && p.Visible && !p.Deleted)
                 .Include(p => p.Variants)
                 .Skip((page - 1) * (int) pageResult)
                 .Take((int) pageResult)
@@ -79,7 +87,8 @@ namespace BlazorEcommerce.Server.Services.ProductService
         {
             return await _context.Products
                 .Where(p => p.Title.ToLower().Contains(searchText.ToLower())
-                            || p.Description.ToLower().Contains(searchText.ToLower()))
+                            || p.Description.ToLower().Contains(searchText.ToLower()) 
+                            && p.Visible && !p.Deleted)
                 .Include(p => p.Variants)
                 .ToListAsync();
         }
@@ -123,8 +132,9 @@ namespace BlazorEcommerce.Server.Services.ProductService
             var response = new ServiceResponse<List<Product>>
             {
                 Data = await _context.Products
-                    .Where(p => p.Featured)
-                    .Include(p => p.Variants)
+                    .Where(p => p.Featured && p.Visible && !p.Deleted)
+                    .Include(p => p.Variants
+                        .Where(v => v.Visible && !v.Deleted))
                     .ToListAsync()
             };
 
