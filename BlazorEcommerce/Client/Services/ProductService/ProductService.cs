@@ -87,9 +87,9 @@ namespace BlazorEcommerce.Client.Services.ProductService
             return (await result.Content.ReadFromJsonAsync<ServiceResponse<Product>>()).Data;
         }
 
-        public async Task DeleteProduct(Product productId)
+        public async Task DeleteProduct(Product product)
         {
-            var result = await _http.DeleteAsync($"api/Product/{productId}");
+            var result = await _http.DeleteAsync($"api/Product/{product.Id}");
         }
     }
 }

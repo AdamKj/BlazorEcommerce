@@ -1,10 +1,10 @@
 ﻿@page "/admin/product"
 @page "/admin/product/{id:int}"
-@using System.Reflection.Metadata.Ecma335
 @inject IProductService _productService
 @inject IProductTypeService _productTypeService
 @inject ICategoryService _categoryService
 @inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
 
 @if (_loading)
 {
@@ -28,6 +28,10 @@ else
             <InputText id="title" @bind-Value="@_product.Title" class="form-control"></InputText>
         </div>
         <div>
+            <label for="imageUrl">Image Url</label>
+            <InputText id="imageUrl" @bind-Value="@_product.ImageUrl" class="form-control"></InputText>
+        </div>
+        <div class="mt-2">
             <img src="@_product.ImageUrl"/>
         </div>
         <div>
@@ -63,13 +67,13 @@ else
                     <InputCheckbox @bind-Value="variant.Visible" style="transform: scale(1.5, 1.5);" disabled="@variant.Deleted"></InputCheckbox>
                 </div>
                 <div class="col">
-                    <button class="btn btn-danger" disabled="@variant.Deleted" @onclick="() => RemoveVariant(variant.ProductTypeId)">
+                    <button type="button" class="btn btn-danger" disabled="@variant.Deleted" @onclick="() => RemoveVariant(variant.ProductTypeId)">
                         <i class="oi oi-trash"></i>
                     </button>
                 </div>
             </div>
         }
-        <button class="btn btn-primary" @onclick="AddVariant">
+        <button type="button" class="btn btn-primary" @onclick="AddVariant">
             <i class="oi oi-plus"></i> Add Variant
         </button>
         <hr/>
@@ -95,6 +99,11 @@ else
         <button type="submit" class="btn btn-primary float-end">@_btnText</button>
         <ValidationSummary></ValidationSummary>
     </EditForm>
+
+    @if (!_product.IsNew)
+    {
+        <button type="button" class="btn btn-danger float-start ms-4" @onclick="DeleteProduct">Delete Product</button>
+    }
 }
 
 @code {
@@ -168,6 +177,17 @@ else
             _product.IsNew = false;
             _product = await _productService.UpdateProduct(_product);
             _navigationManager.NavigateTo($"admin/product/{_product.Id}", true);
+        }
+    }
+
+    async void DeleteProduct()
+    {
+        bool confirmed = await _jsRuntime.InvokeAsync<bool>("confirm",
+            $"Do you really want to delete '{_product.Title}'?");
+        if (confirmed)
+        {
+            await _productService.DeleteProduct(_product);
+            _navigationManager.NavigateTo("admin/products");
         }
     }
 }
